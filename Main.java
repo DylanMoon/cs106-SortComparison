@@ -18,11 +18,12 @@ public class Main {
 			print(word + " ");
 		}
 		println();
-		bs.insertionSort(sort, 1, 5);
+		bs.quickSort(sort, 0, 7);
 		for (var word : sort) {
 			print(word + " ");
 
 		}
 		println();
+		print(bs.getPivot(sort, 3, 6));
 	}
 }

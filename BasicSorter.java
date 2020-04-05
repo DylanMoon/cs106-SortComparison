@@ -28,35 +28,46 @@ public class BasicSorter implements Sorter {
 
 
 	@Override
+	// TODO finish
 	public void quickSort(String[] data, int fi, int n) {
-		var range = fi + n;
-		if (range > data.length) {
-			return;
-		}
-		if (n > 15) {
-			var pivot = partition(data, fi, n);
-
-		} else {
-			insertionSort(data, fi, n);
-		}
-
+		// var range = fi + n;
+		// if (range > data.length) {
+		// return;
+		// }
+		// if (n > 15) {
+		// // do some shit
+		// } else {
+		// insertionSort(data, fi, n);
+		// }
 	}
 
 
 	@Override
+	// TODO fix it
 	public int partition(String[] data, int fi, int n) {
-		var last = fi + n - 1;
-		var middle = ((n - fi) / 2) + fi;
-		String[] temp = { data[fi], data[middle], data[last] };
-		insertionSort(temp, 0, 3);
-		var pivot = temp[1];
-		if (data[fi].compareTo(pivot) == 0) {
-			return fi;
-		} else if (data[last].compareTo(pivot) == 0) {
-			return last;
-		} else {
-			return middle;
-		}
+		// swap(data, fi, getPivot(data, fi, n));
+		// var pivot = fi;// index of first element
+		// var tooBigNdx = fi + 1;// index of second element
+		// var tooSmallNdx = fi + n - 1; // index of last element
+		// while (tooBigNdx < tooSmallNdx) {
+		// while ((tooBigNdx < tooSmallNdx) && (data[tooBigNdx].compareTo(data[pivot]) <
+		// 0)) {
+		// tooBigNdx++;
+		// }
+		// while ((tooBigNdx < tooSmallNdx) && (data[tooSmallNdx].compareTo(data[pivot])
+		// > 0)) {
+		// tooSmallNdx--;
+		// }
+		// if (data[tooBigNdx].compareTo(data[tooSmallNdx]) < 0) {
+		// swap(data, tooBigNdx, tooSmallNdx);
+		// }
+		// }
+		// if (data[pivot].compareTo(data[tooSmallNdx]) >= 0) {
+		// swap(data, pivot, tooSmallNdx);
+		// return tooSmallNdx;
+		// }
+		// return pivot;
+		return 0;
 	}
 
 
@@ -67,11 +78,11 @@ public class BasicSorter implements Sorter {
 			return;
 		}
 		if (n > 15) {// mergeSort if set to be sorted is 16 or larger
-			var half = n / 2;
-			var secondHalf = (n % 2 == 0) ? half : half + 1;
-			mergeSort(data, fi, half); // left half, gets the smaller chunk if n is odd
-			mergeSort(data, fi + half, secondHalf); // right half, gets the bigger chunk if n is odd
-			merge(data, fi, half, secondHalf);
+			var firstHalf = n / 2;
+			var secondHalf = (n % 2 == 0) ? firstHalf : firstHalf + 1;
+			mergeSort(data, fi, firstHalf); // left half, gets the smaller chunk if n is odd
+			mergeSort(data, fi + firstHalf, secondHalf); // right half, gets the bigger chunk if n is odd
+			merge(data, fi, firstHalf, secondHalf);
 
 		} else {// insertionSort if set to be sorted is 15 or fewer
 			insertionSort(data, fi, n);
@@ -134,7 +145,32 @@ public class BasicSorter implements Sorter {
 	}
 
 
+	public int getPivot(String[] data, int fi, int n) {
+		// TODO fix logic to not allow out of bounds exception
+		// see main!
+
+		var fiInt = fi;
+		var middleInt = ((n - fi) / 2) + fi;
+		var lastInt = fi + n - 1;
+		var first = data[fi];
+		var middle = data[((n - fi) / 2) + fi];
+		var last = data[fi + n - 1];
+		if ((middle.compareTo(first) < 0) && (first.compareTo(last) < 0)
+				|| ((middle.compareTo(first) > 0) && (first.compareTo(last) > 0))) {
+			return fiInt;
+		} else if ((first.compareTo(middle) < 0) && (middle.compareTo(last) < 0)
+				|| ((first.compareTo(middle) > 0) && (middle.compareTo(last) > 0))) {
+			return middleInt;
+		} else {
+			return lastInt;
+		}
+	}
+
+
 	private void swap(String[] data, int i, int j) {
+		if (i == j) {
+			return;
+		}
 		var temp = data[i];
 		data[i] = data[j];
 		data[j] = temp;
