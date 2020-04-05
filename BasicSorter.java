@@ -6,34 +6,46 @@ public class BasicSorter implements Sorter {
 
 	@Override
 	public void insertionSort(String[] data, int fi, int n) {
-		int range = fi + n;
-		if (range >= data.length) {
+		var range = fi + n;
+		if (range > data.length) {
 			return;
 		}
-		for (int i = fi + 1; i < range; i++) {
-			var temp = data[i];
-			int properNdx = i - 1;
-			while ((properNdx >= fi) && (data[properNdx].compareTo(temp) > 0)) {
-				swap(data, properNdx + 1, properNdx);
+		for (int i = fi + 1; i <= range; i++) {
+			var properNdx = i - 1;
+			while ((properNdx > fi) && (data[properNdx].compareTo(data[properNdx - 1])) < 0) {
+				swap(data, properNdx - 1, properNdx);
 				properNdx--;
 			}
-			data[properNdx + 1] = temp;
 		}
-
 	}
 
 
 	@Override
 	public void quickSort(String[] data, int fi, int n) {
-		// TODO Auto-generated method stub
+		if (n > 15) {
+			var pivot = partition(data, fi, n);
+
+		} else {
+			insertionSort(data, fi, n);
+		}
 
 	}
 
 
 	@Override
 	public int partition(String[] data, int fi, int n) {
-		// TODO Auto-generated method stub
-		return 0;
+		var last = fi + n - 1;
+		var middle = ((n - fi) / 2) + fi;
+		String[] temp = { data[fi], data[middle], data[last] };
+		insertionSort(temp, 0, 3);
+		var pivot = temp[1];
+		if (data[fi].compareTo(pivot) == 0) {
+			return fi;
+		} else if (data[last].compareTo(pivot) == 0) {
+			return last;
+		} else {
+			return middle;
+		}
 	}
 
 
