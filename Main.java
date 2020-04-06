@@ -14,15 +14,15 @@ public class Main {
 
 	public static void main(String[] args) {
 		BasicSorter bs = new BasicSorter();
-		String[] sort = { "d", "c", "b", "k", "f", "H", "e", "a", "P", "q", "r", "s", "v", "u", "t", "o", "n", "C", "m",
-				"z", "y", "h", "g", "x", "l", "j", "w", "p", "Z", "W", "T", "U", "Y", "V", "K", "X", "A", "S", "B", "E",
+		String[] sort = { "B", "A", "d", "c", "b", "k", "f", "H", "e", "a", "P", "q", "r", "s", "v", "u", "t", "o", "n",
+				"C", "m", "z", "y", "h", "g", "x", "l", "j", "w", "p", "Z", "W", "T", "U", "Y", "V", "K", "X", "S", "E",
 				"G", "I", "Q", "J", "R", "M", "L", "N", "F", "O", "D", "i" };
 		for (var word : sort) {
 			print(word + " ");
 		}
 
 		// bs.quickSort(sort, 0, sort.length);
-		bs.makeHeap(sort);
+		bs.heapSort(sort);
 		println();
 		for (var word : sort) {
 			print(word + " ");
@@ -36,7 +36,8 @@ public class Main {
 		for (var letter : sorted) {
 			print(letter + " ");
 		}
-		bs.quickSort(sorted, 0, sort.length);
+		// bs.quickSort(sorted, 0, sort.length);
+		bs.heapSort(sorted);
 		println();
 		for (var letter : sorted) {
 			print(letter + " ");

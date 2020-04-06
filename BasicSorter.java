@@ -27,7 +27,7 @@ public class BasicSorter implements Sorter {
 
 
 	@Override
-	public void quickSort(String[] data, int fi, int n) {
+	public void quickSort(String[] data, int fi, int n) {// TODO feeeeex
 		var range = fi + n;
 		if (range > data.length) {
 			return;
@@ -129,18 +129,18 @@ public class BasicSorter implements Sorter {
 	@Override
 	public void heapSort(String[] data) {
 		// TODO Auto-generated method stub
-		makeHeap(data);
+		heapify(data);
 		var numUnsorted = data.length;
 		while (numUnsorted > 1) {
 			numUnsorted--;
 			swap(data, 0, numUnsorted);
-			heapify(data);
+			reHeapifyDown(data, numUnsorted - 1);
 		}
-
 	}
 
 
-	public void makeHeap(String[] data) {
+	@Override
+	public void heapify(String[] data) {
 		var range = data.length;
 		for (int i = 0; i < range; i++) {
 			var newNdx = i;
@@ -152,13 +152,11 @@ public class BasicSorter implements Sorter {
 	}
 
 
-	@Override
-	public void heapify(String[] data) {
-		// TODO Auto-generated method stub
+	public void reHeapifyDown(String[] data, int unsorted) {
 		var curNdx = 0;
 		var bHeap = false;
-		while (!bHeap && !isLeaf(data, curNdx)) {
-			var bigChildNdx = getLargerChild(data, curNdx);
+		while (!bHeap && !isLeaf(curNdx, unsorted)) {
+			var bigChildNdx = getLargerChild(data, curNdx, unsorted);
 			if (data[curNdx].compareTo(data[bigChildNdx]) < 0) {
 				swap(data, curNdx, bigChildNdx);
 				curNdx = bigChildNdx;
@@ -169,10 +167,10 @@ public class BasicSorter implements Sorter {
 	}
 
 
-	private int getLargerChild(String[] data, int index) {
+	private int getLargerChild(String[] data, int index, int unsorted) {
 		var leftChildNdx = (index * 2) + 1;
 		var rightChildNdx = (index * 2) + 2;
-		if (rightChildNdx <= data.length) {
+		if (rightChildNdx <= unsorted) {
 			return (data[leftChildNdx].compareTo(data[rightChildNdx]) > 0) ? leftChildNdx : rightChildNdx;
 		} else {
 			return leftChildNdx;
@@ -180,8 +178,8 @@ public class BasicSorter implements Sorter {
 	}
 
 
-	private boolean isLeaf(String[] data, int index) {
-		return ((2 * index) + 1) >= data.length - 1;
+	private boolean isLeaf(int index, int unsorted) {
+		return ((2 * index) + 1) >= unsorted;// don't touch ME section
 	}
 
 
