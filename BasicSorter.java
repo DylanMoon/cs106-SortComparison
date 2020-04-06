@@ -1,7 +1,6 @@
 package sortcomparison;
 
 import static java.lang.System.*;
-import java.util.*;
 
 /**
  * 
@@ -28,64 +27,65 @@ public class BasicSorter implements Sorter {
 
 
 	@Override
-	// TODO finish
 	public void quickSort(String[] data, int fi, int n) {
-		// var range = fi + n;
-		// if (range > data.length) {
-		// return;
-		// }
-		// if (n > 15) {
-		// // do some shit
-		// } else {
-		// insertionSort(data, fi, n);
-		// }
+		var range = fi + n;
+		if (range > data.length) {
+			return;
+		}
+		if (n < 15) {// insertionSort if set to be sorted is 15 or fewer
+			insertionSort(data, fi, n);
+		} else {// quickSort if set to be sorted is 16 or larger
+			var pivot = partition(data, fi, n);// <--- error somewhere
+			try {
+				quickSort(data, fi, pivot - fi);
+				quickSort(data, pivot + 1, fi + n - 1 - pivot);
+			} catch (StackOverflowError e) {
+				System.out.println(e);
+			}
+		}
 	}
 
 
 	@Override
-	// TODO fix it
 	public int partition(String[] data, int fi, int n) {
-		// swap(data, fi, getPivot(data, fi, n));
-		// var pivot = fi;// index of first element
-		// var tooBigNdx = fi + 1;// index of second element
-		// var tooSmallNdx = fi + n - 1; // index of last element
-		// while (tooBigNdx < tooSmallNdx) {
-		// while ((tooBigNdx < tooSmallNdx) && (data[tooBigNdx].compareTo(data[pivot]) <
-		// 0)) {
-		// tooBigNdx++;
-		// }
-		// while ((tooBigNdx < tooSmallNdx) && (data[tooSmallNdx].compareTo(data[pivot])
-		// > 0)) {
-		// tooSmallNdx--;
-		// }
-		// if (data[tooBigNdx].compareTo(data[tooSmallNdx]) < 0) {
-		// swap(data, tooBigNdx, tooSmallNdx);
-		// }
-		// }
-		// if (data[pivot].compareTo(data[tooSmallNdx]) >= 0) {
-		// swap(data, pivot, tooSmallNdx);
-		// return tooSmallNdx;
-		// }
-		// return pivot;
-		return 0;
+		swap(data, fi, getPivot(data, fi, n));
+		var pivot = fi;// index of first element
+		var tooBigNdx = fi + 1;// index of second element
+		var tooSmallNdx = fi + n - 1; // index of last element
+		while (tooBigNdx < tooSmallNdx) {
+			while ((tooBigNdx < tooSmallNdx) && (data[tooBigNdx].compareTo(data[pivot]) <= 0)) {
+				tooBigNdx++;
+			}
+			while ((tooSmallNdx > pivot) && (data[tooSmallNdx].compareTo(data[pivot]) > 0)) {
+				tooSmallNdx--;
+			}
+			if (tooBigNdx < tooSmallNdx) {
+				swap(data, tooBigNdx, tooSmallNdx);
+
+			}
+		}
+		if (data[pivot].compareTo(data[tooSmallNdx]) >= 0) {
+			swap(data, pivot, tooSmallNdx);
+			return tooSmallNdx;
+		}
+		return pivot;
 	}
 
 
 	@Override
 	public void mergeSort(String[] data, int fi, int n) {
-		var range = fi + n;
-		if (range > data.length) {
-			return;
-		}
-		if (n > 15) {// mergeSort if set to be sorted is 16 or larger
+		// var range = fi + n;
+		// if (range > data.length) {
+		// return;
+		// }
+		if (n < 15) {// insertionSort if set to be sorted is 15 or fewer
+			insertionSort(data, fi, n);
+		} else {// mergeSort if set to be sorted is 16 or larger
 			var firstHalf = n / 2;
 			var secondHalf = (n % 2 == 0) ? firstHalf : firstHalf + 1;
 			mergeSort(data, fi, firstHalf); // left half, gets the smaller chunk if n is odd
 			mergeSort(data, fi + firstHalf, secondHalf); // right half, gets the bigger chunk if n is odd
 			merge(data, fi, firstHalf, secondHalf);
-
-		} else {// insertionSort if set to be sorted is 15 or fewer
-			insertionSort(data, fi, n);
 		}
 	}
 
@@ -146,23 +146,20 @@ public class BasicSorter implements Sorter {
 
 
 	public int getPivot(String[] data, int fi, int n) {
-		// TODO fix logic to not allow out of bounds exception
-		// see main!
-
-		var fiInt = fi;
-		var middleInt = ((n - fi) / 2) + fi;
-		var lastInt = fi + n - 1;
-		var first = data[fi];
-		var middle = data[((n - fi) / 2) + fi];
-		var last = data[fi + n - 1];
-		if ((middle.compareTo(first) < 0) && (first.compareTo(last) < 0)
-				|| ((middle.compareTo(first) > 0) && (first.compareTo(last) > 0))) {
-			return fiInt;
-		} else if ((first.compareTo(middle) < 0) && (middle.compareTo(last) < 0)
-				|| ((first.compareTo(middle) > 0) && (middle.compareTo(last) > 0))) {
-			return middleInt;
+		var fiIndex = fi;
+		var middleIndex = ((n - fi) / 2) + fi;
+		var lastIndex = fi + n - 1;
+		var firstVal = data[fiIndex];
+		var middleVal = data[middleIndex];
+		var lastVal = data[lastIndex];
+		if ((middleVal.compareTo(firstVal) < 0) && (firstVal.compareTo(lastVal) < 0)
+				|| ((middleVal.compareTo(firstVal) > 0) && (firstVal.compareTo(lastVal) > 0))) {
+			return fiIndex;
+		} else if ((firstVal.compareTo(middleVal) < 0) && (middleVal.compareTo(lastVal) < 0)
+				|| ((firstVal.compareTo(middleVal) > 0) && (middleVal.compareTo(lastVal) > 0))) {
+			return middleIndex;
 		} else {
-			return lastInt;
+			return lastIndex;
 		}
 	}
 
