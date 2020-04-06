@@ -35,13 +35,9 @@ public class BasicSorter implements Sorter {
 		if (n < 15) {// insertionSort if set to be sorted is 15 or fewer
 			insertionSort(data, fi, n);
 		} else {// quickSort if set to be sorted is 16 or larger
-			var pivot = partition(data, fi, n);// <--- error somewhere
-			try {
-				quickSort(data, fi, pivot - fi);
-				quickSort(data, pivot + 1, fi + n - 1 - pivot);
-			} catch (StackOverflowError e) {
-				System.out.println(e);
-			}
+			var pivot = partition(data, fi, n);// <--- error somewhere //TODO fix w/e isgoing on
+			quickSort(data, fi, pivot - fi);
+			quickSort(data, pivot + 1, fi + n - 1 - pivot);
 		}
 	}
 
@@ -61,7 +57,6 @@ public class BasicSorter implements Sorter {
 			}
 			if (tooBigNdx < tooSmallNdx) {
 				swap(data, tooBigNdx, tooSmallNdx);
-
 			}
 		}
 		if (data[pivot].compareTo(data[tooSmallNdx]) >= 0) {
@@ -74,10 +69,10 @@ public class BasicSorter implements Sorter {
 
 	@Override
 	public void mergeSort(String[] data, int fi, int n) {
-		// var range = fi + n;
-		// if (range > data.length) {
-		// return;
-		// }
+		var range = fi + n;
+		if (range > data.length) {
+			return;
+		}
 		if (n < 15) {// insertionSort if set to be sorted is 15 or fewer
 			insertionSort(data, fi, n);
 		} else {// mergeSort if set to be sorted is 16 or larger
@@ -134,14 +129,59 @@ public class BasicSorter implements Sorter {
 	@Override
 	public void heapSort(String[] data) {
 		// TODO Auto-generated method stub
+		makeHeap(data);
+		var numUnsorted = data.length;
+		while (numUnsorted > 1) {
+			numUnsorted--;
+			swap(data, 0, numUnsorted);
+			heapify(data);
+		}
 
+	}
+
+
+	public void makeHeap(String[] data) {
+		var range = data.length;
+		for (int i = 0; i < range; i++) {
+			var newNdx = i;
+			while ((newNdx != 0) && (data[newNdx].compareTo(data[(newNdx - 1) / 2]) > 0)) {
+				swap(data, newNdx, (newNdx - 1) / 2);
+				newNdx = (newNdx - 1) / 2;
+			}
+		}
 	}
 
 
 	@Override
 	public void heapify(String[] data) {
 		// TODO Auto-generated method stub
+		var curNdx = 0;
+		var bHeap = false;
+		while (!bHeap && !isLeaf(data, curNdx)) {
+			var bigChildNdx = getLargerChild(data, curNdx);
+			if (data[curNdx].compareTo(data[bigChildNdx]) < 0) {
+				swap(data, curNdx, bigChildNdx);
+				curNdx = bigChildNdx;
+			} else {
+				bHeap = true;
+			}
+		}
+	}
 
+
+	private int getLargerChild(String[] data, int index) {
+		var leftChildNdx = (index * 2) + 1;
+		var rightChildNdx = (index * 2) + 2;
+		if (rightChildNdx <= data.length) {
+			return (data[leftChildNdx].compareTo(data[rightChildNdx]) > 0) ? leftChildNdx : rightChildNdx;
+		} else {
+			return leftChildNdx;
+		}
+	}
+
+
+	private boolean isLeaf(String[] data, int index) {
+		return ((2 * index) + 1) >= data.length - 1;
 	}
 
 
