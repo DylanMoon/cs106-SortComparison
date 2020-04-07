@@ -35,7 +35,7 @@ public class BasicSorter implements Sorter {
 		if (n < 15) {// insertionSort if set to be sorted is 15 or fewer
 			insertionSort(data, fi, n);
 		} else {// quickSort if set to be sorted is 16 or larger
-			var pivot = partition(data, fi, n);// <--- error somewhere //TODO fix w/e isgoing on
+			var pivot = partition(data, fi, n);
 			quickSort(data, fi, pivot - fi);
 			quickSort(data, pivot + 1, fi + n - 1 - pivot);
 		}
@@ -67,16 +67,16 @@ public class BasicSorter implements Sorter {
 	}
 
 
-	private int getPivot(String[] data, int fi, int n) {
-		var fiIndex = fi;
-		var middleIndex = n / 2 + fiIndex;
+	private int getPivot(String[] data, int fi, int n) {// implementation of Median of 3
+		var firstIndex = fi;
+		var middleIndex = n / 2 + firstIndex;
 		var lastIndex = fi + n - 1;
-		var firstVal = data[fiIndex];
+		var firstVal = data[firstIndex];
 		var middleVal = data[middleIndex];
 		var lastVal = data[lastIndex];
 		if ((middleVal.compareTo(firstVal) < 0) && (firstVal.compareTo(lastVal) < 0)
 				|| ((middleVal.compareTo(firstVal) > 0) && (firstVal.compareTo(lastVal) > 0))) {
-			return fiIndex;
+			return firstIndex;
 		} else if ((firstVal.compareTo(middleVal) < 0) && (middleVal.compareTo(lastVal) < 0)
 				|| ((firstVal.compareTo(middleVal) > 0) && (middleVal.compareTo(lastVal) > 0))) {
 			return middleIndex;
