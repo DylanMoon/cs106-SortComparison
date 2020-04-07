@@ -179,7 +179,7 @@ public class BasicSorter implements Sorter {
 
 
 	private boolean isLeaf(int index, int unsorted) {
-		return ((2 * index) + 1) >= unsorted;// don't touch ME section
+		return ((2 * index) + 1) > unsorted;// don't touch me section
 	}
 
 
