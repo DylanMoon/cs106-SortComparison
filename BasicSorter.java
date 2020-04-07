@@ -44,7 +44,7 @@ public class BasicSorter implements Sorter {
 
 	@Override
 	public int partition(String[] data, int fi, int n) {
-		swap(data, fi, getPivot(data, fi, n));
+		swap(data, fi, getPivot(data, fi, n));// Median of 3
 		var pivot = fi;// index of first element
 		var tooBigNdx = fi + 1;// index of second element
 		var tooSmallNdx = fi + n - 1; // index of last element
@@ -52,7 +52,7 @@ public class BasicSorter implements Sorter {
 			while ((tooBigNdx < tooSmallNdx) && (data[tooBigNdx].compareTo(data[pivot]) <= 0)) {
 				tooBigNdx++;
 			}
-			while ((tooSmallNdx > pivot) && (data[tooSmallNdx].compareTo(data[pivot]) > 0)) {
+			while ((tooSmallNdx > fi) && (data[tooSmallNdx].compareTo(data[pivot]) > 0)) {
 				tooSmallNdx--;
 			}
 			if (tooBigNdx < tooSmallNdx) {
@@ -63,7 +63,26 @@ public class BasicSorter implements Sorter {
 			swap(data, pivot, tooSmallNdx);
 			return tooSmallNdx;
 		}
-		return pivot;
+		return fi;
+	}
+
+
+	private int getPivot(String[] data, int fi, int n) {
+		var fiIndex = fi;
+		var middleIndex = n / 2 + fiIndex;
+		var lastIndex = fi + n - 1;
+		var firstVal = data[fiIndex];
+		var middleVal = data[middleIndex];
+		var lastVal = data[lastIndex];
+		if ((middleVal.compareTo(firstVal) < 0) && (firstVal.compareTo(lastVal) < 0)
+				|| ((middleVal.compareTo(firstVal) > 0) && (firstVal.compareTo(lastVal) > 0))) {
+			return fiIndex;
+		} else if ((firstVal.compareTo(middleVal) < 0) && (middleVal.compareTo(lastVal) < 0)
+				|| ((firstVal.compareTo(middleVal) > 0) && (middleVal.compareTo(lastVal) > 0))) {
+			return middleIndex;
+		} else {
+			return lastIndex;
+		}
 	}
 
 
@@ -128,7 +147,6 @@ public class BasicSorter implements Sorter {
 
 	@Override
 	public void heapSort(String[] data) {
-		// TODO Auto-generated method stub
 		heapify(data);
 		var numUnsorted = data.length;
 		while (numUnsorted > 1) {
@@ -180,25 +198,6 @@ public class BasicSorter implements Sorter {
 
 	private boolean isLeaf(int index, int unsorted) {
 		return ((2 * index) + 1) > unsorted;// don't touch me section
-	}
-
-
-	public int getPivot(String[] data, int fi, int n) {
-		var fiIndex = fi;
-		var middleIndex = ((n - fi) / 2) + fi;
-		var lastIndex = fi + n - 1;
-		var firstVal = data[fiIndex];
-		var middleVal = data[middleIndex];
-		var lastVal = data[lastIndex];
-		if ((middleVal.compareTo(firstVal) < 0) && (firstVal.compareTo(lastVal) < 0)
-				|| ((middleVal.compareTo(firstVal) > 0) && (firstVal.compareTo(lastVal) > 0))) {
-			return fiIndex;
-		} else if ((firstVal.compareTo(middleVal) < 0) && (middleVal.compareTo(lastVal) < 0)
-				|| ((firstVal.compareTo(middleVal) > 0) && (middleVal.compareTo(lastVal) > 0))) {
-			return middleIndex;
-		} else {
-			return lastIndex;
-		}
 	}
 
 
