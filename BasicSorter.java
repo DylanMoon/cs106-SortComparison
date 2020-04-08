@@ -27,7 +27,7 @@ public class BasicSorter implements Sorter {
 
 
 	@Override
-	public void quickSort(String[] data, int fi, int n) {// TODO feeeeex
+	public void quickSort(String[] data, int fi, int n) {
 		var range = fi + n;
 		if (range > data.length) {
 			return;
